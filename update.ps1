@@ -1,5 +1,5 @@
 #################################################
-# HelloID-Conn-Prov-Target-Voskamp-Update
+# HelloID-Conn-Prov-Target-Voskamp-VosForce-Update
 # PowerShell V2
 #################################################
 
@@ -88,8 +88,8 @@ try {
     }
 
     if ($null -ne $correlatedAccount) {
+        $outputContext.PreviousData = $correlatedAccount | Select-Object -Property @($outputContext.Data.PSObject.Properties.Name)
         $correlatedAccount = $correlatedAccount | Select-Object -Property @($actionContext.Data.PSObject.Properties.Name)
-        $outputContext.PreviousData = $correlatedAccount
 
         $splatCompareProperties = @{
             ReferenceObject  = @($correlatedAccount.PSObject.Properties)
@@ -131,7 +131,7 @@ try {
             if (-not($actionContext.DryRun -eq $true)) {
                 Write-Information "Updating Voskamp account with accountReference: [$($actionContext.References.Account)]"
                 $updateAccount = Invoke-RestMethod @splatUpdateUserParams
-                $outputContext.Data = $updateAccount | Select-Object -Property @($actionContext.Data.PSObject.Properties.Name)
+                $outputContext.Data = $updateAccount.data | Select-Object -Property @($outputContext.Data.PSObject.Properties.Name)
             }
             else {
                 Write-Information "[DryRun] Update Voskamp account with accountReference: [$($actionContext.References.Account)], will be executed during enforcement"
@@ -147,7 +147,7 @@ try {
 
         'NoChanges' {
             Write-Information "No changes to Voskamp account with accountReference: [$($actionContext.References.Account)]"
-            $outputContext.Data = $correlatedAccount | Select-Object -Property @($actionContext.Data.PSObject.Properties.Name)
+            $outputContext.Data = $outputContext.PreviousData
             $outputContext.Success = $true
             $outputContext.AuditLogs.Add([PSCustomObject]@{
                     Message = "Skipped updating Voskamp account with AccountReference: [$($actionContext.References.Account)]. Reason: No changes."
