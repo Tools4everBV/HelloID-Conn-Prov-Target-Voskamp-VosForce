@@ -24,7 +24,7 @@
   - [Remarks](#remarks)
     - [Network access](#network-access)
     - [API permission errors](#api-permission-errors)
-    - [Voskamp-VosForce API limitations](#voskamp-vosforce-api-limitations)
+    - [API limitations](#api-limitations)
   - [Development resources](#development-resources)
     - [API endpoints](#api-endpoints)
     - [API documentation](#api-documentation)
@@ -117,7 +117,7 @@ The account reference is populated with the `id` property from Voskamp-VosForce.
 ### API permission errors
 - The Get user call returns a 403 with a JSON error: `You don't have permission to access this.`. The connector treats the account as unavailable in this case.
 
-### Voskamp-VosForce API limitations
+### API limitations
 The Voskamp-VosForce API is not aware of the current state of the Voskamp-VosForce application. HelloID can only retrieve the state stored in the API database, not the state directly from the application.
 
 For this reason, HelloID can import accounts and permissions only from the VosForce API, not directly from the VosForce application.
