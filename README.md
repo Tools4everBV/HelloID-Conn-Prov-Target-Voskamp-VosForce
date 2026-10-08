@@ -39,14 +39,14 @@ _HelloID-Conn-Prov-Target-Voskamp-VosForce_ is a _target_ connector. _Voskamp-Vo
 
 The following features are available:
 
-| Feature                                   | Supported | Actions                                            | Remarks                                                                          |
-| ----------------------------------------- | --------- | -------------------------------------------------- | -------------------------------------------------------------------------------- |
-| **Account Lifecycle**                     | ✅         | Create, Correlate, Update, Enable, Disable, Delete |                                                                                  |
-| **Permissions**                           | ✅         | Retrieve, Grant, Revoke                            |                                                                                  |
-| **Resources**                             | ❌         | -                                                  |                                                                                  |
-| **Entitlement Import: Accounts**          | ✅         | -                                                  | Only de API database is imported see [remark](#voskamp-vosforce-api-limitations) |
-| **Entitlement Import: Permissions**       | ✅         | Roles permissions                                  | Only de API database is imported see [remark](#voskamp-vosforce-api-limitations) |
-| **Governance Reconciliation Resolutions** | ✅         | -                                                  |                                                                                  |
+| Feature                                   | Supported | Actions                                            | Remarks                                                         |
+| ----------------------------------------- | --------- | -------------------------------------------------- | --------------------------------------------------------------- |
+| **Account Lifecycle**                     | ✅         | Create, Correlate, Update, Enable, Disable, Delete |                                                                 |
+| **Permissions**                           | ✅         | Retrieve, Grant, Revoke                            |                                                                 |
+| **Resources**                             | ❌         | -                                                  |                                                                 |
+| **Entitlement Import: Accounts**          | ✅         | -                                                  | Only de API database is imported see [remark](#api-limitations) |
+| **Entitlement Import: Permissions**       | ✅         | Roles permissions                                  | Only de API database is imported see [remark](#api-limitations) |
+| **Governance Reconciliation Resolutions** | ✅         | -                                                  |                                                                 |
 
 ## Getting started
 
