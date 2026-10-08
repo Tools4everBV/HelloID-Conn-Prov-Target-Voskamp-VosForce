@@ -130,6 +130,10 @@ The same behavior applies to permissions: existing permissions can be correlated
 flowchart LR
     HELLOID["HelloID"] <--> API["API VosForce"]
     API --> APP["Application VosForce"]
+
+    style HELLOID fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+    style API fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style APP fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
 ## Development resources
