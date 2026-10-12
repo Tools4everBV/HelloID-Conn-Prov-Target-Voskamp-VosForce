@@ -1,5 +1,5 @@
 #################################################
-# HelloID-Conn-Prov-Target-Voskamp-Create
+# HelloID-Conn-Prov-Target-Voskamp-VosForce-Create
 # PowerShell V2
 #################################################
 
@@ -112,7 +112,7 @@ try {
                 Write-Information 'Creating and correlating Voskamp account'
                 $createdAccount = Invoke-RestMethod @splatCreateParams
 
-                $outputContext.Data = $createdAccount.data | Select-Object -Property @($actionContext.Data.PSObject.Properties.Name)
+                $outputContext.Data = $createdAccount.data | Select-Object -Property @($outputContext.Data.PSObject.Properties.Name)
                 $outputContext.AccountReference = $createdAccount.data.Id
             }
             else {
@@ -124,7 +124,7 @@ try {
 
         'CorrelateAccount' {
             Write-Information 'Correlating Voskamp account'
-            $outputContext.Data = $correlatedAccount | Select-Object -Property @($actionContext.Data.PSObject.Properties.Name)
+            $outputContext.Data = $correlatedAccount | Select-Object -Property @($outputContext.Data.PSObject.Properties.Name)
             $outputContext.AccountReference = $correlatedAccount.Id
             $outputContext.AccountCorrelated = $true
             $auditLogMessage = "Correlated account: [$($outputContext.AccountReference)] on field: [$($correlationField)] with value: [$($correlationValue)]"

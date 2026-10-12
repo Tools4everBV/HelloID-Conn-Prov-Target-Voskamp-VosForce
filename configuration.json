@@ -35,7 +35,7 @@
     {
         "key": "BaseUrl",
         "type": "input",
-        "defaultValue": "",
+        "defaultValue": "https://101.<customerName>.nl",
         "templateOptions": {
             "label": "BaseUrl",
             "description": "The URL to the API.",

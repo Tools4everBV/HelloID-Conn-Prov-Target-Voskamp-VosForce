@@ -1,15 +1,15 @@
-# HelloID-Conn-Prov-Target-Voskamp
+# HelloID-Conn-Prov-Target-Voskamp-VosForce
 
 > [!IMPORTANT]
 > This repository contains the connector and configuration code only. The implementer is responsible to acquire the connection details such as username, password, certificate, etc. You might even need to sign a contract or agreement with the supplier before implementing this connector. Please contact the client's application manager to coordinate the connector requirements.
 
 <p align="center">
-  <img src="https://cms.voskampgroep.nl/uploads/logo_beveiligingstechniek_e149303d9f_2cde17dc4c_361d47d7d9.svg" style="width: 50%; max-width: 500px;">
+  <img src="https://github.com/Tools4everBV/HelloID-Conn-Prov-Target-Voskamp-VosForce/blob/main/Logo.png?raw=true">
 </p>
 
 ## Table of contents
 
-- [HelloID-Conn-Prov-Target-Voskamp](#helloid-conn-prov-target-voskamp)
+- [HelloID-Conn-Prov-Target-Voskamp-VosForce](#helloid-conn-prov-target-voskamp-vosforce)
   - [Table of contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Supported features](#supported-features)
@@ -24,6 +24,7 @@
   - [Remarks](#remarks)
     - [Network access](#network-access)
     - [API permission errors](#api-permission-errors)
+    - [API limitations](#api-limitations)
   - [Development resources](#development-resources)
     - [API endpoints](#api-endpoints)
     - [API documentation](#api-documentation)
@@ -32,35 +33,33 @@
 
 ## Introduction
 
-_HelloID-Conn-Prov-Target-Voskamp_ is a _target_ connector. _Voskamp_ provides a set of REST APIs that allow you to programmatically interact with its data.
+_HelloID-Conn-Prov-Target-Voskamp-VosForce_ is a _target_ connector. _Voskamp-VosForce_ provides a set of REST APIs that allow you to programmatically interact with its data.
 
 ## Supported features
 
 The following features are available:
 
-| Feature                                   | Supported | Actions                                            | Remarks |
-| ----------------------------------------- | --------- | -------------------------------------------------- | ------- |
-| **Account Lifecycle**                     | ✅         | Create, Correlate, Update, Enable, Disable, Delete |         |
-| **Permissions**                           | ✅         | Retrieve, Grant, Revoke                            |         |
-| **Resources**                             | ❌         | -                                                  |         |
-| **Entitlement Import: Accounts**          | ✅         | -                                                  |         |
-| **Entitlement Import: Permissions**       | ✅         | Roles permissions                                  |         |
-| **Governance Reconciliation Resolutions** | ✅         | -                                                  |         |
-
-
+| Feature                                   | Supported | Actions                                            | Remarks                                                         |
+| ----------------------------------------- | --------- | -------------------------------------------------- | --------------------------------------------------------------- |
+| **Account Lifecycle**                     | ✅         | Create, Correlate, Update, Enable, Disable, Delete |                                                                 |
+| **Permissions**                           | ✅         | Retrieve, Grant, Revoke                            |                                                                 |
+| **Resources**                             | ❌         | -                                                  |                                                                 |
+| **Entitlement Import: Accounts**          | ✅         | -                                                  | Only de API database is imported see [remark](#api-limitations) |
+| **Entitlement Import: Permissions**       | ✅         | Roles permissions                                  | Only de API database is imported see [remark](#api-limitations) |
+| **Governance Reconciliation Resolutions** | ✅         | -                                                  |                                                                 |
 
 ## Getting started
 
 ### HelloID Icon URL
 URL of the icon used for the HelloID Provisioning target system.
 ```
-https://raw.githubusercontent.com/Tools4everBV/HelloID-Conn-Prov-Target-Voskamp/refs/heads/main/Icon.png
+https://raw.githubusercontent.com/Tools4everBV/HelloID-Conn-Prov-Target-Voskamp-VosForce/refs/heads/main/Icon.png
 ```
 
 ### Requirements
 - **Client certificate**: Obtain the PFX client certificate and password required for mutual TLS (mTLS).
 - **API key**: Obtain an API key with permission to read and modify users, roles, and authorizations.
-- **API URL**: Confirm the base URL for the tenant, for example `https://<tenant>.entryx.nl`.
+- **API URL**: Confirm the base URL for the tenant, for example `https://101.<customerName>.nl`.
 - **Base64 Key**: Generate the base64-encoded key for the `PKCS #12` certificate.
 
 #### Creating the Base64 Key from the `PKCS #12` Certificate
@@ -68,25 +67,28 @@ https://raw.githubusercontent.com/Tools4everBV/HelloID-Conn-Prov-Target-Voskamp/
 Use the following PowerShell script to create the base64-encoded key:
 
 ```powershell
-$p12CertificatePath = 'C:\example\example.pfx'
-[System.Convert]::ToBase64String((Get-Content $p12CertificatePath -AsByteStream))
-```
+$filePath = 'C:\Cert'
+$pfxCertName = 'Cert.pfx'
+$pfxPath = "$filePath\$pfxCertName"
 
+$fileContentBytes = [System.IO.File]::ReadAllBytes("$pfxPath")
+[System.Convert]::ToBase64String($fileContentBytes) | Set-Content "$filePath\HelloID_Cert_Base64.txt"
+```
 
 ### Connection settings
 
 The following settings are required to connect to the API.
 
-| Setting              | Description                                                        | Mandatory |
-| -------------------- | ------------------------------------------------------------------ | --------- |
-| P12CertificateBase64 | Base64-encoded PFX client certificate used for mTLS                | Yes       |
-| certificatePassword  | Password for the PFX client certificate                            | Yes       |
-| apiKey               | API key sent as a Bearer token                                     | Yes       |
-| BaseUrl              | Base URL of the Voskamp API, Example: `https://<tenant>.entryx.nl` | Yes       |
+| Setting              | Description                                                                    | Mandatory |
+| -------------------- | ------------------------------------------------------------------------------ | --------- |
+| P12CertificateBase64 | Base64-encoded PFX client certificate used for mTLS                            | Yes       |
+| certificatePassword  | Password for the PFX client certificate                                        | Yes       |
+| apiKey               | API key sent as a Bearer token                                                 | Yes       |
+| BaseUrl              | Base URL of the Voskamp-VosForce API, Example: `https://101.<customerName>.nl` | Yes       |
 
 ### Correlation configuration
 
-The correlation configuration is used to specify which properties will be used to match an existing account within _Voskamp_ to a person in _HelloID_.
+The correlation configuration is used to specify which properties will be used to match an existing account within _Voskamp-VosForce_ to a person in _HelloID_.
 
 | Setting                   | Value                             |
 | ------------------------- | --------------------------------- |
@@ -103,7 +105,7 @@ The field mapping can be imported by using the _fieldMapping.json_ file.
 
 ### Account Reference
 
-The account reference is populated with the `id` property from Voskamp.
+The account reference is populated with the `id` property from Voskamp-VosForce.
 
 ## Remarks
 
@@ -114,6 +116,21 @@ The account reference is populated with the `id` property from Voskamp.
 
 ### API permission errors
 - The Get user call returns a 403 with a JSON error: `You don't have permission to access this.`. The connector treats the account as unavailable in this case.
+
+### API limitations
+The Voskamp-VosForce API is not aware of the current state of the Voskamp-VosForce application. HelloID can only retrieve the state stored in the API database, not the state directly from the application.
+
+For this reason, HelloID can import accounts and permissions only from the VosForce API, not directly from the VosForce application.
+
+For example, an employee may exist in the application but not in the API database. HelloID will then send a create request. The API checks whether the employee already exists using the employee number and, if so, correlates the request with the existing employee instead of creating a duplicate. The API then returns the existing employee as the correlated account.
+
+The same behavior applies to permissions: existing permissions can be correlated through the API in the same way.
+
+```mermaid
+flowchart LR
+    HELLOID("HelloID") <--> API("API VosForce")
+    API --> APP("Application VosForce")
+```
 
 ## Development resources
 
