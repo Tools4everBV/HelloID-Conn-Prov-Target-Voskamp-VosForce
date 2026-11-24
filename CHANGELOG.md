@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Added
 - Logo.png
 - Icon.png
+- 
 
 ### Changed
 - Name from `Voskamp` to `Voskamp-VosForce`
